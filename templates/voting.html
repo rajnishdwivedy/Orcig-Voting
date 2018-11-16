@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<Head>
+<title>Names of people
+</title>
+
+<style>
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 40%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+.button{
+    background-color: green;
+    border: none;
+    color: black;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    
+    
+
+}
+</style>
+<body>
+<h1>Voting</h1>
+<form action="{{url_for('logout')}}" method="post">
+    <table name ='event_names' id="eventTable">
+            <tr>
+              <th >Event</th>
+              <th>votes</th>
+            </tr>
+            {%for event in events%}
+            <tr name ='event_name'> 
+                <td name =event value ='{{event.event_options}}'>{{event.event_options}}</td> 
+               
+                
+               
+                <td>
+                     
+                    <select id="{{'voting'+event.event_no|string}}" name='voting_weight'  >
+                        {%for event in events%}
+                        <option value='{{event.event_no}}' >{{event.event_no}}</option>
+                        {%endfor%}
+                    </select></td>
+               
+            </tr>
+            {%endfor%} 
+          
+           
+</table>
+{% if error!='' %}
+<div id="error" style="color:red">{{error}}</div>
+{% endif %}
+
+
+
+
+{%if result !=''%}
+ 
+<h2>Results so far</h2>
+<table name ='user_votes' id="userVotes">
+       <tr>
+         <th>Events</th>
+         <th>Event Score</th>
+       </tr>
+       {%for event in result%}
+       <tr name ='event_name'> 
+           <td name =event value ='{{event.event_options}}'>{{event.event_options}}</td> 
+           <td name =event value ='{{event.event_score}}'>{{event.event_score}}</td> 
+       </tr>
+       {%endfor%} 
+
+
+       
+{% endif %}
+
+
+
+
+
+  
+        <!--never use differnt names for submit buttobs https://stackoverflow.com/questions/43811779/use-many-submit-buttons-in-the-same-form-->
+        <input type="submit" value="submit" name="submit" class="button" onclick="return checkDup();">    
+        <input type="submit" value="logout" name="submit" class="button" >
+    
+        {%if user =='RAJNISH'%}
+        <p><a href="{{'/admin'}}">Admin</a></p>
+        {% endif %}
+   
+  
+    </form>
+
+    <script>
+            function checkDup()
+                {
+                    
+                    
+                    var tabLen=document.getElementById("eventTable").rows.length;
+                    var sum=0;   
+                    for (i=1;i<tabLen;i++)
+                    {   
+                        
+                        var x="voting"+i.toString();
+                        
+                        /*alert("hello there "+x);*/
+                        
+                        var num=parseInt(document.getElementById(x).value);
+                        sum=sum+num;                   
+
+
+                    }
+                  
+                        if(sum!=((tabLen-1)*(tabLen))/2)
+                        {
+                            alert("Please select unique entries");
+                            alert(sum)
+                            return false;
+                        }
+                        else{
+                            return true;
+                        }
+               
+                    
+                }
+            
+            </script>
+
+
+
+
+</body>
+</Head>

@@ -1,0 +1,39 @@
+<link rel="stylesheet" href="/static/css/style.css" type="text/css">
+{% block body %}
+ 
+ 
+<form action="/register" method="POST">
+	<div class="login">
+		<div class="login-screen">
+			<div class="app-title">
+				<h1>Register</h1>
+			</div>
+ 
+			<div class="login-form">
+				<div class="control-group">
+				<input type="text" class="login-field" value="" placeholder="username" name="username">
+				<label class="login-field-icon fui-user" for="login-name"></label>
+				</div>
+ 
+				<div class="control-group">
+				<input type="password" class="login-field" value="" placeholder="password" name="password">
+				<label class="login-field-icon fui-lock" for="login-pass"></label>
+				</div>
+ 
+				<input type="submit" value="register" class="btn btn-primary btn-large btn-block" >
+				<br><i style="font-size:12px ;color:red">**Please use your first name as username for better reporting</i>
+				<!--in case of wrong username and password-->
+				<p><button class="btn btn-primary btn-large btn-block"><a href="{{'/'}}">Log In</a></p></button>
+                {%if error !=''%}
+                <p style="color:red;">{{error}}</p>
+                {% endif %}
+                
+			    <br>
+			</div>
+		</div>
+	</div>
+</form>
+ 
+
+
+{% endblock %}

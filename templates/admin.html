@@ -1,0 +1,145 @@
+
+{% block body %}
+
+ <style>
+ .button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+ 
+ </style>
+
+<form name ="EventName" action="/admin" method="POST">
+
+ 
+	<div class="admin-EventActive-form">
+                <h1>Event Active Table Data Entry</h1><br>
+				<div class="control-group">
+				EventName: <input id ="EventnameActive" type="text" class="login-field" value="" placeholder="EventName" name="EventNameActive"><br>
+				<br>IsActive : <select id ="IsActive" class="Database" name ="IsActive" >
+                    <option>True</option>
+                    <option>False</option>
+                    </select><br>   
+                <br> Options : <input id ="Number" class="Options" name ="Number" type="text" >
+                <br><br> <input type="submit" value="Add value" class="button" name="EventNameButton" onclick="return validateForm()"> 
+                <input type="submit" value="Update" class="button" name="EventNameButton" onclick="return validateForm()">
+                <input type="submit" value="Delete" class="button" name="EventNameButton" onclick="return validateForm()">
+                <input type="submit" value="ViewResult" class="button" name="EventNameButton">
+            </div>
+</div>
+<p><a href="{{'/logout'}}">Voting</a></p>
+</form>
+
+{%if option!=''%}
+<form name="EventOptions" action="/admin" method="POST">
+
+    <div class="admin-Events"><br>
+                    <h1>Events Table Data Entry</h1><br><br>
+                EventName: <input type="text" class="EventName" value="" placeholder="EventName" name="EventName"><br><br>
+                {%for i in range (option | int)%}
+                <!--<EventNo: <input type="text" class="EventNo" value="" placeholder="EventNo" name="{{'EventNo'+i |string}}"><br><br>-->
+                EventOption: <input type="text" class="EvenOption" value="" placeholder="EvenOption" name="{{'EvenOption'+i |string}}"><br><br>
+				{%endfor%}
+			</div>
+                    <input type="hidden" name ="EventOptionshidden" value="optionsForm">
+            <br><br> <input name ="EventNameButton" type="submit" value="Insert" class="button" >
+ </form>    
+{%endif%}
+             <!--in case of wrong username and password-->
+             {%if error !=''%}
+             <p style="color:red;">{{error}}</p>
+             {% endif %}
+             
+
+
+ {%if result !=''%}
+ 
+ <h2>Active Events and Options</h2>
+ <table name ='event_names' id="eventTable">
+        <tr>
+          <th>EventName</th>
+          <th>Event Option</th>
+          <th>Event Weight</th>
+        </tr>
+        {%for event in result%}
+        <tr name ='event_name'> 
+            <td name =event value ='{{event.even_name}}'>{{event.even_name}}</td> 
+            <td name =event value ='{{event.event_options}}'>{{event.event_options}}</td> 
+            <td name =event value ='{{event.event_no}}'>{{event.event_no}}</td> 
+            
+        </tr>
+        {%endfor%} 
+
+</table>
+        
+{% endif %}
+
+
+{%if user !=''%}
+ 
+<p><h2>Individual selection</h2></p>
+<table name ='user_names' id="user voting">
+       <tr>
+         <th>User Name</th>
+         <th>Event Name</th>
+         <th>Event Option</th>
+         <th>Individual Score</th>
+       </tr>
+       {%for event in user%}
+       <tr name ='event_name'> 
+           <td name =event value ='{{event.user_name}}'>{{event.user_name}}</td> 
+           <td name =event value ='{{event.even_name}}'>{{event.even_name}}</td> 
+           <td name =event value ='{{event.event_options}}'>{{event.event_options}}</td> 
+           <td name =event value ='{{event.event_score}}'>{{event.event_score}}</td> 
+
+       </tr>
+       {%endfor%} 
+</table>
+
+       
+{% endif %}
+
+
+
+<script>
+function validateForm() {
+    var x = document.forms["EventName"]["EventNameActive"].value;
+        if (x == "") {
+       alert("fields cannot be left blank");
+        return false;
+    }
+    
+}
+
+
+
+
+</script>
+ 
+
+
+{% endblock %}
