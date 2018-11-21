@@ -18,6 +18,7 @@ eventName=db.execute("select max(eventname) from activeevent where is_active='t'
  #   users=db.execute("select user_name,pwd from users where is_active").fetchall()
   
 app = Flask(__name__)
+app.secret_key = os.urandom(12)
  
 @app.route('/')
 def home():
@@ -235,6 +236,7 @@ def admin():
 
 
 if __name__ == "__main__":
-    app.secret_key = os.urandom(12)
+    #app.secret_key = os.urandom(12)
     #app.run(debug=True,host='0.0.0.0', port=4444)
+    app.debug=True
     app.run()
