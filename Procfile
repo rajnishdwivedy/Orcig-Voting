@@ -1,1 +1,1 @@
-web: gunicorn app:loginapp
+web: gunicorn loginapp:loginapp
