@@ -1,1 +1,1 @@
-web: python loginapp.py
+web: gunicorn app:loginapp
