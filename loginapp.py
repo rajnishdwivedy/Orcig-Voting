@@ -8,8 +8,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session,sessionmaker
 
 #app = Flask(__name__)
-#engine=create_engine(os.getenv("DATABASE_URL"))
-engine=create_engine('postgresql://@localhost:5432/rajnishkumar')
+engine=create_engine(os.getenv("HEROKU_POSTGRESQL_GOLD_URL"))
+#engine=create_engine('postgresql://@localhost:5432/rajnishkumar')
 db=scoped_session(sessionmaker(bind=engine))
 error=''
 eventName=db.execute("select max(eventname) from activeevent where is_active='t'").fetchone()
