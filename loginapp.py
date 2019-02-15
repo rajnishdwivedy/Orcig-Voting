@@ -201,6 +201,7 @@ def admin():
         if request.form['EventNameButton']=='Update':
             ispresent=db.execute("select count(*) from ActiveEvent where  eventName=:eventname",{"eventname":request.form['EventNameActive']}).fetchone()
             if ispresent[0]>0:
+                print("Active present")
                 db.execute("update ActiveEvent set is_active=:isactive where eventName=:eventname",{"eventname":request.form['EventNameActive'],"isactive":request.form['IsActive']})
                 db.commit
                 return render_template('admin.html',error='Records updated',result='',option='')
