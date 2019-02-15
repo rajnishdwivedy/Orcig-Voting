@@ -2,6 +2,9 @@ from flask import Flask
 from flask import Flask, flash, redirect, render_template, request, session, abort
 import os
 import json
+import logging
+
+
 
 #sql insertings
 from sqlalchemy import create_engine
@@ -18,6 +21,10 @@ eventName=db.execute("select max(eventname) from activeevent where is_active='t'
  #   users=db.execute("select user_name,pwd from users where is_active").fetchall()
   
 app = Flask(__name__)
+
+app.logger.addHandler(logging.StreamHandler(sys.stdout))
+app.logger.setLevel(logging.ERROR)
+
 app.secret_key = os.urandom(12)
  
 @app.route('/')
