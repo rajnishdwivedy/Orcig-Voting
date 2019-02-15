@@ -180,11 +180,13 @@ def changePassword():
 @app.route('/admin',methods=['POST','GET'])
 def admin():
     if request.method=='GET':
+        print("in Admin Get",session.get('logged_in))
         if not session.get('logged_in'):
             return render_template('login.html')
         else:
             return render_template('admin.html',error='',result='',option='')
     else:
+        print("in Admin post",session.get('logged_in))                                 
         if request.form['EventNameButton']=='Add value':
             session['nEvents']=request.form['Number']
             ispresent=db.execute("select count(*) from ActiveEvent where is_active='t' and eventName=:eventname",{"eventname":request.form['EventNameActive']}).fetchone()
