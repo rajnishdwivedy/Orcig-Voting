@@ -26,7 +26,7 @@ app = Flask(__name__)
 app.logger.addHandler(logging.StreamHandler(sys.stdout))
 app.logger.setLevel(logging.ERROR)
 
-app.secret_key = os.urandom(12)
+app.config.from_object(Config)
  
 @app.route('/')
 def home():
