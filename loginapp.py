@@ -4,6 +4,7 @@ import os
 import json
 import sys
 import logging
+from config import Config
 
 
 
