@@ -63,19 +63,13 @@ def logout():
         session['logged_in'] = False
         return home()
     else:
-        request.form['submit']=='submit'
+        if request.form['submit']=='submit':
         # very good  article on how to read when method is get or when it is post -https://stackoverflow.com/questions/32019733/getting-value-from-select-tag-using-flask
         #if you submit your forms via POST, use request.form.get(). If you submit your forms via GET, use request.args.get().
-        eventvote=request.form.getlist("voting_weight")
-        eventvote=list(map(int,eventvote))
-        size=len(eventvote)
-        s=len(set(eventvote))
-        if s!=size:
-            error='Please select unique value for each event'
-            print(error)
-            return names(error)
-        else:
-        #for key,value in eventname.items():
+            eventvote=request.form.getlist("voting_weight")
+            eventvote=list(map(int,eventvote))
+            size=len(eventvote)
+            s=len(set(eventvote))
             session['voting']={}
             session['voting']['votes']=dict(zip(session['voting_options'],eventvote))
             success='Your values has been submitted! Please log out'
@@ -87,6 +81,12 @@ def logout():
                 return  render_template('voting.html',events=events,error=success,user=session['Logged_user'],result=results)
             else:
                 return  render_template('voting.html',events=events,error=error,user=session['Logged_user'],result=results)
+        else:
+            events=db.execute("select event_options,event_no from events where even_name='"+eventName[0]+"'").fetchall()
+            results=db.execute("select sum(event_score) as event_score,ev.event_options from eventsvoting ev inner join events e on e.event_id=ev.event_id where e.even_name=:evenname group by ev.event_options ",
+                {"evenname":eventName[0]}).fetchall()
+            user=db.execute("select user_name from users where user_id=:userid and is_active=True",{"userid":session['Logged_user']}).fetchall()
+            return  render_template('voting.html',events=events,error='',user=user[0][0],result=results)  
 
         
    
